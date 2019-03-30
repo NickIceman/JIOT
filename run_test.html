@@ -27,7 +27,6 @@
     <title>JIOT SYSTEMS</title>
 
 	<script src="./assets/canvasjs.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -59,58 +58,52 @@
     </nav>
 
     <script type="text/javascript">
-		window.onload = function () {
-			var data = [];
-			var dataSeries = { type: "line" };
-			var dataPoints = [];
-			dataPoints.push({
-				x: 0,
-				y: 0,               
-			});
-			dataSeries.dataPoints = dataPoints;
-			data.push(dataSeries);               
-
-			var chart = new CanvasJS.Chart("chartContainer", {
-				animationEnabled: true,
-				zoomEnabled: true,
-				title:{
-					text: "" 
-				},
-				axisY :{
-					includeZero:false
-				},
-				data: data  // random generator below
-			});
-			chart.render();
-    	}
 
     	function jiotRun() {
-    		
-			$.get( "92.255.99.53:8080/getData?key=secret", function( result ) {
+    		// var url = '92.255.99.53:8080/getData?key=secret';
+    		var url = 'http://91.239.26.217/getData.php?key=secret';
 
-				console.log( "result" + result );
-				var dataSeries = { type: "line" };
-				var dataPoints = [];
-				dataPoints.push({
-					x: result.x,
-					y: result.y,               
-				});
-				dataSeries.dataPoints = dataPoints;
-				data.push(dataSeries);
 
-				var chart = new CanvasJS.Chart("chartContainer", {
-					animationEnabled: true,
-					zoomEnabled: true,
-					title:{
-						text: "" 
-					},
-					axisY :{
-						includeZero:false
-					},
-					data: data  // random generator below
-				});
-				chart.render();               
-			});
+            var dataPoints = [];
+            var dataPoints2 = [];
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light2",
+                title: {
+                    text: "График"
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: dataPoints
+                },{
+                    type: "line",
+                    dataPoints: dataPoints2
+                }]
+            });
+            updateData();
+
+            // Initial Values
+            var xValue = 0;
+            var newDataCount = 0;
+
+            function addData(data) {
+                if(newDataCount > 30) {
+                    dataPoints.shift();
+                    dataPoints2.shift();
+                }
+                dataPoints.push({x: xValue, y: parseInt(data.x)});
+                dataPoints2.push({x: xValue, y: parseInt(data.y)});
+                xValue++;
+                newDataCount++;
+                chart.render();
+                console.log(data);
+                setTimeout(updateData, 1500);
+            }
+
+            function updateData() {
+                $.getJSON(url, addData);
+            }
+
     	}
 
 
@@ -138,7 +131,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <script src="./assets/fancybox/dist/jquery.fancybox.min.js"></script>
