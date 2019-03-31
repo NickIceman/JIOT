@@ -87,6 +87,7 @@
                 },
                 data: [{
                     type: "line",
+                    markerType: "square",
                     dataPoints: dataPoints
                 },{
                     type: "line",
@@ -115,7 +116,7 @@
                 $('#angle').val(data.data.angle);
                 $('#temp').val(data.band.temperature);
                 
-                $('#alarm').html(data.alarm);
+                $('#alarm').html(data.status);
                 
                 console.log(data);
                 setTimeout(updateData, 1500);

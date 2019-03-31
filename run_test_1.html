@@ -66,68 +66,22 @@
     </nav>
 
     <script type="text/javascript">
-
-    	function jiotRun() {
-    		// var url = '92.255.99.53:8080/getData?key=secret';
-    		var url = 'http://91.239.26.217/getData.php?key=secret';
-
-
-            var dataPoints = [];
-            var dataPoints2 = [];
-
-            var chart = new CanvasJS.Chart("chartContainer", {
-                theme: "light2",
-                title: {
-                    text: "График"
-                },
-                data: [{
-                    type: "line",
-                    dataPoints: dataPoints
-                },{
-                    type: "line",
-                    dataPoints: dataPoints2
-                }]
-            });
-            updateData();
-
-            // Initial Values
-            var xValue = 0;
-            var newDataCount = 0;
-
-            function addData(data) {
-                if(newDataCount > 30) {
-                    dataPoints.shift();
-                    dataPoints2.shift();
-                }
-                dataPoints.push({x: xValue, y: parseInt(data.speed)});
-                dataPoints2.push({x: xValue, y: parseInt(data.pulse)});
-                xValue++;
-                newDataCount++;
-                chart.render();
-                $('#velocity').val(data.speed);
-                $('#pulse').val(data.pulse);
-                $('#length').val(data.length);
-                $('#angle').val(data.angle);
-                $('#temp').val(data.temp);
-                
-                $('#alarm').html(data.alarm);
-                
-                console.log(data);
-                setTimeout(updateData, 1500);
-            }
-
-            function updateData() {
-                $.getJSON(url, addData);
-            }
-
-    	}
-
+        window.onload = function() {
+            setTimeout(function(){
+                $('.js-area').hide();
+                $('#velocity').val('30');
+                $('#length').val('0');
+                $('#angle').val('10');
+                $('#pulse').val('130');
+                $('#temp').val('36');
+            }, 3000);
+        };
 
     </script>
     <section id="portfolio">
         <div class="container">
         	<div style="color: #fff;">
-                <p class="area">Загрузка параметров оборудования для текущего пользователя...</p>
+                <p class="area js-area">Загрузка параметров оборудования для текущего пользователя...</p>
                 <br>
                 <p style="text-align: center;">
                 <a class="btn btn-sm btn-success" href="./run_test.html">Запуск тренировки</a>
