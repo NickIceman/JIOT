@@ -359,3 +359,7 @@ button {
 @media (max-width: 991.98px) {  }
 
 @media (max-width: 1199.98px) {  }
+
+.d-flex {
+    background: rgb(24,39,34,1);
+}
