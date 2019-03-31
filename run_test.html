@@ -68,9 +68,14 @@
     <script type="text/javascript">
 
     	function jiotRun() {
-    		// var url = '92.255.99.53:8080/getData?key=secret';
-    		var url = 'http://91.239.26.217/getData.php?key=secret';
+            url1 = 'http://100.100.154.239:8080/runningtrack/10';
+            url2 = 'http://100.100.154.239:8080/band/10';
+            $.getJSON(url1);
+            $.getJSON(url2);
 
+    		// var url = '92.255.99.53:8080/getData?key=secret';
+    		//var url = 'http://91.239.26.217/getData.php?key=secret';
+            var url = 'http://100.100.154.239:8080/api/graphic';
 
             var dataPoints = [];
             var dataPoints2 = [];
@@ -99,16 +104,16 @@
                     dataPoints.shift();
                     dataPoints2.shift();
                 }
-                dataPoints.push({x: xValue, y: parseInt(data.speed)});
-                dataPoints2.push({x: xValue, y: parseInt(data.pulse)});
+                dataPoints.push({x: xValue, y: parseInt(data.data.velocity)});
+                dataPoints2.push({x: xValue, y: parseInt(data.band.pulse)});
                 xValue++;
                 newDataCount++;
                 chart.render();
-                $('#velocity').val(data.speed);
-                $('#pulse').val(data.pulse);
-                $('#length').val(data.length);
-                $('#angle').val(data.angle);
-                $('#temp').val(data.temp);
+                $('#velocity').val(data.data.velocity);
+                $('#pulse').val(data.band.pulse);
+                $('#length').val(data.data.length);
+                $('#angle').val(data.data.angle);
+                $('#temp').val(data.band.temperature);
                 
                 $('#alarm').html(data.alarm);
                 
